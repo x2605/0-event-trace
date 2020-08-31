@@ -75,7 +75,7 @@ Table_to_str.to_richtext = function(obj, as_key)
     elseif have('index',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].index='..obj.index..'[/color]'
     end
     return '[color=purple]'..obj.object_name..'[/color]'
-  elseif t == 'table' then
+  elseif t == 'table' and not as_key then
     s[#s + 1] = '{'
     for k, v in pairs(obj) do
       if #s > 1 then s[#s + 1] = ', ' end
