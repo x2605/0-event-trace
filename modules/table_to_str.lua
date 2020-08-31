@@ -16,15 +16,64 @@ local keyname = function(k)
   return k
 end
 
-local have_name = function(obj)
-  if pcall(function() return obj.name end) then return obj.name end
+local nil2empty = function(s) if s == nil then return '' end return s end
+
+local unicode_len = function(s)
+  local r = true
+  local c, cs = 0, 0
+  while r do
+    s, c = s:gsub('^[%z\1-\127\194-\244][\128-\191]*','')
+    cs = cs + c
+    if c == 0 then r = false end
+  end
+  return cs
+end
+
+local unicode_front = function(s,l)
+  local r, sn = true, ''
+  local c, cs = 0, 0
+  while r do
+    sn = sn .. nil2empty(s:match('^[%z\1-\127\194-\244][\128-\191]*'))
+    s, c = s:gsub('^[%z\1-\127\194-\244][\128-\191]*','')
+    cs = cs + c
+    if c == 0 or cs >= l then r = false end
+  end
+  return sn
+end
+
+local unicode_end = function(s,l)
+  local r, sn = true, ''
+  local c, cs = 0, 0
+  while r do
+    sn = nil2empty(s:match('[%z\1-\127\194-\244][\128-\191]*$')) .. sn
+    s, c = s:gsub('[%z\1-\127\194-\244][\128-\191]*$','')
+    cs = cs + c
+    if c == 0 or cs >= l then r = false end
+  end
+  return sn
+end
+
+local shorten_if_long = function(s)
+  if unicode_len(s) > 30 then
+    return unicode_front(s,13)..' ··· '..unicode_end(s,13)
+  end
+  return s
+end
+
+local have = function(prob,obj)
+  if pcall(function() return obj[prob] end) then return obj[prob] end
 end
 
 Table_to_str.to_richtext = function(obj, as_key)
   local s = {}
   local t = type(obj)
   if t == 'table' and type(obj.__self) == 'userdata' and obj.object_name then
-    if have_name(obj) then return '"[color=cyan]'..obj.name..'[/color]"' end
+    if have('name',obj) then return '"[color=cyan]'..obj.name..'[/color]"'
+    elseif have('id',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].id='..obj.id..'[/color]'
+    elseif have('group_number',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].group_number='..obj.group_number..'[/color]'
+    elseif have('tag_number',obj) and have('text',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].tag_number='..obj.tag_number..', text="'..shorten_if_long(obj.text)..'"[/color]'
+    elseif have('index',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].index='..obj.index..'[/color]'
+    end
     return '[color=purple]'..obj.object_name..'[/color]'
   elseif t == 'table' then
     s[#s + 1] = '{'
@@ -40,7 +89,7 @@ Table_to_str.to_richtext = function(obj, as_key)
     return table.concat(s)
   elseif t == 'string' then
     if as_key then return keyname(esc(obj)) end
-    return '"[color=1,0.7,1,1]'..esc(obj)..'[/color]"'
+    return '"[color=1,0.7,1,1]'..shorten_if_long(esc(obj))..'[/color]"'
   elseif t == 'number' then
     return '[color=1,1,0.7,1]'..tostring(obj)..'[/color]'
   elseif t == 'boolean' then

@@ -26,9 +26,7 @@ local set_handlers = function(handler_list)
           local logging = true
           ed.tick = nil
           ed.name = nil
-          if k == 'on_console_command' and ed.parameters and ed.parameters ~= '' then ed.parameters = '(...)'
-          elseif k == 'on_console_chat' and ed.message and ed.message ~= '' then ed.message = '(...)'
-          elseif k == k:match('^on_gui_.+') and Util.have_parent_0_event_trace(ed.element) then logging = false end
+          if k == k:match('^on_gui_.+') and Util.have_parent_0_event_trace(ed.element) then logging = false end
           if logging then
             for player_index, g in pairs(global.players) do
               if g.logging and game.players[player_index] and game.players[player_index].connected and g.whitelist[k] and g.gui.outpane.valid then
