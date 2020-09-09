@@ -31,18 +31,21 @@ local set_handlers = function(handler_list)
             for player_index, g in pairs(global.players) do
               if g.logging and game.players[player_index] and game.players[player_index].connected and g.whitelist[k] and g.gui.outpane.valid then
                 local str, counter, pc, ret
-                if _gvv_recognized_ then
+                -- implementation of gvv
+                if _gvv_recognized_ and g.log_to_gvv then
                   pc, ret = pcall(function() return remote.call('__gvv__0-event-trace','add', game.players[player_index].name, k, e) end)
-                  if pc then counter = ret
+                  if pc then counter = '[color=0.35,0.65,1]'..tostring(ret)..'[/color]'
                   else
                     counter = g.counter[k] + 1
                     g.counter[k] = counter
                   end
+
+                -- previous behavior
                 else
                   counter = g.counter[k] + 1
                   g.counter[k] = counter
                 end
-                str = {"",'[color=0.6,0.6,0.6,1][font=default-tiny-bold]',tick,' . [color=yellow][font=default]',k,'[/font][/color] ',counter,'[/font][/color] ',
+                str = {"",'[color=0.6,0.6,0.6][font=default-tiny-bold]',tick,' . [color=yellow][font=default]',k,'[/font][/color] ',counter,'[/font][/color] ',
                   Table_to_str.to_richtext(ed),
                 }
                 g.gui.outpane.add{type = 'label', caption = str, style = 'output_0-event-trace'}

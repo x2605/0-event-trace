@@ -20,7 +20,7 @@ Load.on_configuration_changed = function(data)
   if data.mod_changes then
     local thismod = data.mod_changes['0-event-trace']
     if thismod then
-      if thismod.old_version and thidmod.new_version then
+      if thismod.old_version and thismod.new_version then
       end
     end
   end

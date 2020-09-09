@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 2020-09-10
+
+  Changes:
+    - Added collaborative function with "gvv" mod. "gvv" mod can keep event logs and investigate them.
+    - Main window can be minimized to do not disturb game play while logging. (Closing window will stop logging)
+
+---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 2020-08-31
 

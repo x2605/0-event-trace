@@ -7,5 +7,5 @@
   "homepage": "https://github.com/x2605/0-event-trace",
   "factorio_version": "1.0",
   "dependencies": [],
-  "description": "This is a debugging tool. This mod tracks and shows you what event ID(defines.events.～) occurs. Only admins can open GUI if it is multiplay game.\n\nHow to use :\nPress SHIFT+F3 to open GUI. (you can change key bindings)\nPress SHIFT+F2 for quick toggle logging mode while GUI is opened.\nOnly works while GUI is opened.\n\nVisit lua-api.factorio.com to see full description of events."
+  "description": "This is a debugging tool. This mod tracks and shows you what event ID(defines.events.～) occurs. Only admins can open GUI if it is multiplay game.\nHow to use :\nPress SHIFT+F3 to open GUI. (you can change key bindings)\nPress SHIFT+F2 for quick toggle logging mode while GUI is opened.\nOnly works while GUI is opened.\nTracked logs can be saved and investigated by \"gvv\" mod.\nhttps://mods.factorio.com/mod/gvv"
 }

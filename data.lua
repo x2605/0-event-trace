@@ -116,3 +116,9 @@ c = copytbl('scroll_pane-thickthumb'..suffix, default_gui['scroll_pane'..suffix]
 c.horizontally_stretchable = 'off'
 c.left_padding = 8
 c.right_padding = 16
+
+c = copytbl('dropdown'..suffix, default_gui.dropdown)
+c.list_box_style.scroll_pane_style.vertical_scrollbar_style = table.deepcopy(default_gui.scroll_pane.vertical_scrollbar_style)
+c.list_box_style.scroll_pane_style.vertical_scrollbar_style.width=18
+c.list_box_style.scroll_pane_style.vertical_scrollbar_style.thumb_button_style = table.deepcopy(default_gui.vertical_scrollbar.thumb_button_style)
+c.list_box_style.scroll_pane_style.vertical_scrollbar_style.thumb_button_style.width=16

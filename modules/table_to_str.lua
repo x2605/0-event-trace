@@ -68,7 +68,7 @@ Table_to_str.to_richtext = function(obj, as_key)
   local s = {}
   local t = type(obj)
   if t == 'table' and type(obj.__self) == 'userdata' and obj.object_name then
-    if have('name',obj) then return '"[color=cyan]'..obj.name..'[/color]"'
+    if have('name',obj) and obj.name ~= '' then return '"[color=cyan]'..obj.name..'[/color]"'
     elseif have('id',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].id='..obj.id..'[/color]'
     elseif have('group_number',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].group_number='..obj.group_number..'[/color]'
     elseif have('tag_number',obj) and have('text',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].tag_number='..obj.tag_number..', text="'..shorten_if_long(obj.text)..'"[/color]'
