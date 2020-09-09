@@ -1,6 +1,20 @@
 --로드
 
 local Load = {}
+local gvv = require('modules.gvv')
+
+if not _initiated_session_ then
+  _loaded_ = false
+  _initiated_session_ = true
+end
+
+local loader = function()
+  if not _loaded_ then
+    _gvv_recognized_ = false
+    gvv.loader()
+    _loaded_ = true
+  end
+end
 
 Load.on_configuration_changed = function(data)
   if data.mod_changes then
@@ -10,12 +24,15 @@ Load.on_configuration_changed = function(data)
       end
     end
   end
+  loader()
 end
 
 Load.on_init = function()
+  loader()
 end
 
 Load.on_load = function()
+  loader()
 end
 
 Load.on_player_demoted = function(event)
@@ -33,6 +50,13 @@ Load.on_player_demoted = function(event)
 end
 
 Load.on_player_removed = function(event)
+  if not global.players then return end
+  local g = global.players[event.player_index]
+  if not g or not g.gui.frame or not g.gui.frame.valid then return end
+  global.players[event.player_index] = nil
+end
+
+Load.on_player_created = function(event)
   if not global.players then return end
   local g = global.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end

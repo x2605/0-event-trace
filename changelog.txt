@@ -2,12 +2,14 @@
 Version: 0.1.1
 Date: 2020-08-31
 
-  - Shows string parameter of on_console_chat and on_console_command.
-  - Shortens string to show if it is too long. (Not applied to table keys or object names.)
-  - Shows extra information of LuaObject such as LuaTrain, LuaCustomChartTag, LuaUnitGroup, etc.
+  Changes:
+    - Shows string parameter of on_console_chat and on_console_command.
+    - Shortens string to show if it is too long. (Not applied to table keys or object names.)
+    - Shows extra information of LuaObject such as LuaTrain, LuaCustomChartTag, LuaUnitGroup, etc.
 
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2020-08-30
 
-  - First push.
+  Info:
+    - First push.

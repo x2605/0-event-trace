@@ -1,5 +1,7 @@
 -- 컨트롤
 
+_initiated_session_ = false
+
 local Gui = require('modules.gui')
 local Gui_Event = require('modules.gui_event')
 local Load = require('modules.load')
@@ -15,6 +17,7 @@ script.on_event('0-event-trace-toggle-frame', Gui.toggle_frame)
 script.on_event('0-event-trace-toggle-logging', Gui.toggle_logging)
 script.on_event(defines.events.on_player_removed, Load.on_player_removed)
 script.on_event(defines.events.on_player_demoted, Load.on_player_demoted)
+script.on_event(defines.events.on_player_created, Load.on_player_created)
 script.on_init(Load.on_init)
 script.on_load(Load.on_load)
 script.on_configuration_changed(Load.on_configuration_changed)

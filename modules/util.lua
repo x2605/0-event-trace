@@ -45,6 +45,10 @@ Util.have_parent_0_event_trace = function(gui_elem)
     return true
   elseif gui_elem.parent and gui_elem.parent.name == '_0_event_trace_frame_' then
     return true
+  elseif _gvv_recognized_ and gui_elem.name == '_gvv-mod_frame_' then
+    return true
+  elseif _gvv_recognized_ and gui_elem.parent and gui_elem.parent.name == '_gvv-mod_frame_' then
+    return true
   elseif gui_elem.parent then
     return Util.have_parent_0_event_trace(gui_elem.parent)
   else
@@ -62,6 +66,7 @@ Util.create_frame_w_closebtn = function(player, frame_name, title)
   local drag = frame.header.add{type = 'empty-widget', name = 'dragspace', style = 'draggable_space_header'}
   drag.drag_target = frame
   drag.style.right_margin = 8
+  drag.style.height = 24
   drag.style.horizontally_stretchable = true
   drag.style.vertically_stretchable = true
   local closebtn = frame.header.add{type = 'sprite-button', name = 'closebtn', sprite = 'utility/close_white', style = 'frame_action_button', mouse_button_filter = {'left'}}
