@@ -66,10 +66,10 @@ _0_event_trace_function_.attach_past = function(e)
         e[t].ghost_unit_number = _0_event_trace_function_.deepcopy(v.ghost_unit_number)
       end
     elseif k == 'player_index' and type(v) == 'number' then
-      if _0_event_trace_function_.have('position',v) then if not e[t] then e[t] = {} end
+      if _0_event_trace_function_.have('position',game.players[v]) then if not e[t] then e[t] = {} end
         e[t].position = _0_event_trace_function_.deepcopy(game.players[v].position)
       end
-      if _0_event_trace_function_.have('surface',v) then if not e[t] then e[t] = {} end
+      if _0_event_trace_function_.have('surface',game.players[v]) then if not e[t] then e[t] = {} end
         e[t].surface = _0_event_trace_function_.deepcopy(game.players[v].surface.name)
       end
     end
