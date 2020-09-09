@@ -1,4 +1,5 @@
 return [[if not global['0-event-trace'] then global['0-event-trace'] = {} end
+
 _0_event_trace_function_ = {}
 _0_event_trace_function_.index_to_5dim_folders = function(i)
   local f = {}
@@ -8,6 +9,74 @@ _0_event_trace_function_.index_to_5dim_folders = function(i)
   end
   return f
 end
+_0_event_trace_function_.deepcopy = function(ori)
+  local t = type(ori)
+  local ret
+  if t == 'table' and type(ori.__self) == 'userdata' and ori.object_name then
+    ret = ori
+  elseif t == 'table' then
+    ret = {}
+    for k, v in next, ori, nil do
+      ret[_0_event_trace_function_.deepcopy(k)] = _0_event_trace_function_.deepcopy(v)
+    end
+  else
+    ret = ori
+  end
+  return ret
+end
+_0_event_trace_function_.have = function(prob,obj)
+  if pcall(function() return obj[prob] end) then return obj[prob] end
+end
+_0_event_trace_function_.attach_past = function(e)
+  local t
+  for k, v in pairs(e) do
+    t = '_T_'..k
+    if type(v) == 'table' and type(v.__self) == 'userdata' and v.object_name and _0_event_trace_function_.have('valid',v) then
+      if _0_event_trace_function_.have('name',v) then if not e[t] then e[t] = {} end
+        e[t].name = _0_event_trace_function_.deepcopy(v.name)
+      end
+      if _0_event_trace_function_.have('type',v) then if not e[t] then e[t] = {} end
+        e[t].type = _0_event_trace_function_.deepcopy(v.type)
+      end
+      if _0_event_trace_function_.have('index',v) then if not e[t] then e[t] = {} end
+        e[t].index = _0_event_trace_function_.deepcopy(v.index)
+      end
+      if _0_event_trace_function_.have('position',v) then if not e[t] then e[t] = {} end
+        e[t].position = _0_event_trace_function_.deepcopy(v.position)
+      end
+      if _0_event_trace_function_.have('surface',v) then if not e[t] then e[t] = {} end
+        e[t].surface = _0_event_trace_function_.deepcopy(v.surface.name)
+      end
+      if _0_event_trace_function_.have('id',v) then if not e[t] then e[t] = {} end
+        e[t].id = _0_event_trace_function_.deepcopy(v.id)
+      end
+      if _0_event_trace_function_.have('group_id',v) then if not e[t] then e[t] = {} end
+        e[t].group_id = _0_event_trace_function_.deepcopy(v.group_id)
+      end
+      if _0_event_trace_function_.have('group_number',v) then if not e[t] then e[t] = {} end
+        e[t].group_number = _0_event_trace_function_.deepcopy(v.group_number)
+      end
+      if _0_event_trace_function_.have('tag_number',v) then if not e[t] then e[t] = {} end
+        e[t].tag_number = _0_event_trace_function_.deepcopy(v.tag_number)
+      end
+      if _0_event_trace_function_.have('unit_number',v) then if not e[t] then e[t] = {} end
+        e[t].unit_number = _0_event_trace_function_.deepcopy(v.unit_number)
+      end
+      if _0_event_trace_function_.have('ghost_unit_number',v) then if not e[t] then e[t] = {} end
+        e[t].ghost_unit_number = _0_event_trace_function_.deepcopy(v.ghost_unit_number)
+      end
+    elseif k == 'player_index' and type(v) == 'number' then
+      if _0_event_trace_function_.have('position',v) then if not e[t] then e[t] = {} end
+        e[t].position = _0_event_trace_function_.deepcopy(game.players[v].position)
+      end
+      if _0_event_trace_function_.have('surface',v) then if not e[t] then e[t] = {} end
+        e[t].surface = _0_event_trace_function_.deepcopy(game.players[v].surface.name)
+      end
+    end
+  end
+  return e
+end
+
 remote.add_interface('__gvv__0-event-trace',{
   add = function(player_name, eventname, eventdata)
     local h = global['0-event-trace']
@@ -33,7 +102,7 @@ remote.add_interface('__gvv__0-event-trace',{
     for d = 5, 1, -1 do
       if not e[f[d] ] then e[f[d] ] = {} end
       if d == 1 then
-        e[f[d] ] = eventdata
+        e[f[d] ] = _0_event_trace_function_.attach_past(eventdata)
         break
       end
       e = e[f[d] ]

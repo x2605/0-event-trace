@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.1
+Date: 2020-09-10
+
+  Changes:
+    - Log of LuaObject in gvv global leaves a few information such as name, position... with "_T_" header for the cases that LuaObject is no more exist.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.0
 Date: 2020-09-10
 

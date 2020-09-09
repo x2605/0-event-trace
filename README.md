@@ -11,6 +11,7 @@ To keep event logs and investigate them, use this with **gvv** mod https://mods.
 - Only works while GUI is opened.  
 - You can set up filter for events what you want to see.  
 - Supports export/import filter list.  
+- Use with "gvv" mod to keep and look for logs.  
 
 ### LuaRemote interfaces added to "gvv" mod if it is active
 - **remote.call("__gvv__0-event-trace","add",<player_name>, <event_name>(string), <event_data>(table))** : Adds a log entry in global table of gvv.
