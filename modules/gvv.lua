@@ -2,7 +2,6 @@
 
 local gvv = {}
 
-------------------
 local lua_code = require('modules.remote_code.remote_gvv')
 
 gvv.loader = function()

@@ -276,8 +276,6 @@ Gui.toggle_frame = function(event)
   tab3s1wrap2.gvvdel_from_btn.style.width = 200
   tab3set1.add{type = 'button', name = 'gvvclear_btn', caption = {"0-event-trace-gvvclear"}}
   tab3set1.gvvclear_btn.style.top_margin = 20
-  tab3set1.add{type = 'label', name = 'comment1', caption = {"0-event-trace-gvv-comment1"}}
-  tab3set1.comment1.style.single_line = false
 
   local eventname = tab3set1.gvvdel_select.items[tab3set1.gvvdel_select.selected_index]
   if not eventname then eventname = '' end
