@@ -9,11 +9,19 @@ _0_event_trace_function_.index_to_5dim_folders = function(i)
   end
   return f
 end
+local blacklist = { --Causing savefile corruption 세이브파일 고장냄
+  LuaLazyLoadedValue = true,
+  LuaItemStack = true,
+}
 _0_event_trace_function_.deepcopy = function(ori)
   local t = type(ori)
   local ret
   if t == 'table' and type(ori.__self) == 'userdata' and ori.object_name then
-    ret = ori
+    if blacklist[ori.object_name] then
+      ret = ori.object_name
+    else
+      ret = ori
+    end
   elseif t == 'table' then
     ret = {}
     for k, v in next, ori, nil do
@@ -102,7 +110,7 @@ remote.add_interface('__gvv__0-event-trace',{
     for d = 5, 1, -1 do
       if not e[f[d] ] then e[f[d] ] = {} end
       if d == 1 then
-        e[f[d] ] = _0_event_trace_function_.attach_past(eventdata)
+        e[f[d] ] = _0_event_trace_function_.deepcopy(_0_event_trace_function_.attach_past(eventdata))
         break
       end
       e = e[f[d] ]

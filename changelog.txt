@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.3
+Date: 2020-09-10
+
+  Fixes:
+    - Fixed gvv global table can cause savefile to be corrupted.
+      Saving LuaItemStack and LuaLazyLoadedValue in global is blacklisted to fix.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.2
 Date: 2020-09-10
 
