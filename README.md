@@ -14,7 +14,8 @@ To keep event logs and investigate them, use this with **gvv** mod https://mods.
 - Use with "gvv" mod to keep and look for logs.  
 
 ### LuaRemote interfaces added to "gvv" mod if it is active
-- **remote.call("__gvv__0-event-trace","add",<player_name>, <event_name>(string), <event_data>(table))** : Adds a log entry in global table of gvv.
-- **remote.call("__gvv__0-event-trace","del",<player_name>, <event_name>(string), <start_index>, <end_index>)** : Deletes a range of log entries in global table of gvv.
+- **remote.call("__gvv__0-event-trace","add",<player_name>, <event_name(string)>, <event_data(table)>)** : Adds a log entry in global table of gvv.
+- **remote.call("__gvv__0-event-trace","del",<player_name>, <event_name(string)>, <start_index>, <end_index>)** : Deletes a range of log entries in global table of gvv.
 - **remote.call("__gvv__0-event-trace","clear",<player_name>)** : Empties all log entries in global table of gvv. Only of specific player's.
-- **remote.call("__gvv__0-event-trace","get",<player_name>, <event_name>(string), <index>)** : Returns a <event_data> table stored in global table of gvv.
+- **remote.call("__gvv__0-event-trace","get",<player_name>, <event_name(string)>, <index>)** : Returns a <event_data> table stored in global table of gvv.
+- **remote.call("__gvv__0-event-trace","get_last_index",<player_name>, <event_name(string)>)** : Returns last index of log.

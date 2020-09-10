@@ -1,10 +1,15 @@
 return [[if not global['0-event-trace'] then global['0-event-trace'] = {} end
 
+_0_event_trace_digits_ = 5
 _0_event_trace_function_ = {}
 _0_event_trace_function_.index_to_5dim_folders = function(i)
   local f = {}
-  for d = 1, 5 do
-    f[d] = i%10
+  for d = 1, _0_event_trace_digits_ do
+    if d == _0_event_trace_digits_ then
+      f[d] = i
+    else
+      f[d] = i%10
+    end
     i = (i - i%10)/10
   end
   return f
@@ -107,7 +112,7 @@ remote.add_interface('__gvv__0-event-trace',{
     local f = _0_event_trace_function_.index_to_5dim_folders(j)
     -- create 5-dimensional index folder
     -- result ex) index = 120513 then eventname[12][0][5][1][3] = eventdata
-    for d = 5, 1, -1 do
+    for d = _0_event_trace_digits_, 1, -1 do
       if not e[f[d] ] then e[f[d] ] = {} end
       if d == 1 then
         e[f[d] ] = _0_event_trace_function_.deepcopy(_0_event_trace_function_.attach_past(eventdata))
@@ -148,61 +153,56 @@ remote.add_interface('__gvv__0-event-trace',{
       if digit == 0 then return end
       if pstart == pend then
         if type(folder_s) == 'table' then
-          for i = fstart[digit] + 1, fend[digit] - 1, 1 do
-            folder_s[i] = nil
+          for i in pairs(folder_s) do
+            if type(i) == 'number' and i > fstart[digit] and i < fend[digit] then
+              folder_s[i] = nil
+            end
           end
           iterator(digit - 1, folder_s[fstart[digit] ], folder_s[fend[digit] ], pstart * 10 + fstart[digit], pend * 10 + fend[digit])
         end
       else
         local fs, fe
         if type(folder_s) == 'table' then
-          for i = fstart[digit] + 1, 9, 1 do
-            folder_s[i] = nil
+          for i in pairs(folder_s) do
+            if type(i) == 'number' and i > fstart[digit] then
+              folder_s[i] = nil
+            end
           end
           fs = folder_s[fstart[digit] ]
         end
         if type(folder_e) == 'table' then
-          for i = 0, fend[digit] - 1, 1 do
-            folder_e[i] = nil
+          for i in pairs(folder_e) do
+            if type(i) == 'number' and i < fend[digit] then
+              folder_e[i] = nil
+            end
           end
           fe = folder_e[fend[digit] ]
         end
         iterator(digit - 1, fs, fe, pstart * 10 + fstart[digit], pend * 10 + fend[digit])
       end
     end
-    iterator(5, e, e, 0, 0)
-    pcall(function() e[fstart[5] ][fstart[4] ][fstart[3] ][fstart[2] ][fstart[1] ] = nil end)
-    if type(e[fstart[5] ]) == 'table' and table_size(e[fstart[5] ]) == 0 then
-      e[fstart[5] ] = nil
-    elseif type(e[fstart[5] ]) == 'table' then
-      if type(e[fstart[5] ][fstart[4] ]) == 'table' and table_size(e[fstart[5] ][fstart[4] ]) == 0 then
-        e[fstart[5] ][fstart[4] ] = nil
-      elseif type(e[fstart[5] ][fstart[4] ]) == 'table' then
-        if type(e[fstart[5] ][fstart[4] ][fstart[3] ]) == 'table' and table_size(e[fstart[5] ][fstart[4] ][fstart[3] ]) == 0 then
-          e[fstart[5] ][fstart[4] ][fstart[3] ] = nil
-        elseif type(e[fstart[5] ][fstart[4] ][fstart[3] ]) == 'table' then
-          if type(e[fstart[5] ][fstart[4] ][fstart[3] ][fstart[2] ]) == 'table' and table_size(e[fstart[5] ][fstart[4] ][fstart[3] ][fstart[2] ]) == 0 then
-            e[fstart[5] ][fstart[4] ][fstart[3] ][fstart[2] ] = nil
+    iterator(_0_event_trace_digits_, e, e, 0, 0)
+    local remove_entry = function(ftbl)
+      pcall(function()
+        local t = e
+        for i = _0_event_trace_digits_, 1, -1 do
+          if i > 1 then t = t[ftbl[i] ]
+          else t[ftbl[1] ] = nil
           end
         end
-      end
-    end
-    pcall(function() e[fend[5] ][fend[4] ][fend[3] ][fend[2] ][fend[1] ] = nil end)
-    if type(e[fend[5] ]) == 'table' and table_size(e[fend[5] ]) == 0 then
-      e[fend[5] ] = nil
-    elseif type(e[fend[5] ]) == 'table' then
-      if type(e[fend[5] ][fend[4] ]) == 'table' and table_size(e[fend[5] ][fend[4] ]) == 0 then
-        e[fend[5] ][fend[4] ] = nil
-      elseif type(e[fend[5] ][fend[4] ]) == 'table' then
-        if type(e[fend[5] ][fend[4] ][fend[3] ]) == 'table' and table_size(e[fend[5] ][fend[4] ][fend[3] ]) == 0 then
-          e[fend[5] ][fend[4] ][fend[3] ] = nil
-        elseif type(e[fend[5] ][fend[4] ][fend[3] ]) == 'table' then
-          if type(e[fend[5] ][fend[4] ][fend[3] ][fend[2] ]) == 'table' and table_size(e[fend[5] ][fend[4] ][fend[3] ][fend[2] ]) == 0 then
-            e[fend[5] ][fend[4] ][fend[3] ][fend[2] ] = nil
+      end)
+      for i = 2, _0_event_trace_digits_ do
+        pcall(function()
+          local t = e
+          for ii = _0_event_trace_digits_, i + 1, -1 do
+            t = t[ftbl[ii] ]
           end
-        end
+          if table_size(t[ftbl[i] ]) == 0 then t[ftbl[i] ] = nil end
+        end)
       end
     end
+    remove_entry(fstart)
+    remove_entry(fend)
     if iend == 99999999999999 then
       if istart > 0 then
         e.last_index = istart - 1
@@ -218,9 +218,20 @@ remote.add_interface('__gvv__0-event-trace',{
     if type(index) ~= 'number' then return end
     local e = h[player_name][eventname]
     local f = _0_event_trace_function_.index_to_5dim_folders(index)
-    if e[f[5] ] and e[f[5] ][f[4] ] and e[f[5] ][f[4] ][f[3] ] and e[f[5] ][f[4] ][f[3] ][f[2] ] then
-      return e[f[5] ][f[4] ][f[3] ][f[2] ][f[1] ]
-    end
+    local pc, ret = pcall(function()
+      local t = e
+      for i = _0_event_trace_digits_, 1, -1 do
+        t = t[f[i] ]
+      end
+      return t
+    end)
+    if pc then return ret end
+  end,
+
+  get_last_index = function(player_name, eventname)
+    local h = global['0-event-trace']
+    if not h or not h[player_name] or not h[player_name][eventname] then return end
+    return h[player_name][eventname].last_index
   end,
 })
 ]]
