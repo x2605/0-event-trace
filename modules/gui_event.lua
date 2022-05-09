@@ -278,6 +278,7 @@ Gui_Event.on_gui_text_changed = function(event)
   if not global.players then return end
   local g = global.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
+  local noerror, r
   if event.element == g.gui.white_search then
     g.gui.white_selall.state = false
     g.gui.white_deselall.state = false
@@ -291,7 +292,8 @@ Gui_Event.on_gui_text_changed = function(event)
     else
       str = str:lower()
       for _, child in pairs(g.gui.whitelist.children) do
-        if string.match(child.name:gsub('[-_]', ''), str) then
+        noerror, r = pcall(string.match,child.name:gsub('[-_]', ''),str)
+        if noerror and r then
           child.visible = true
         else
           child.visible = false
