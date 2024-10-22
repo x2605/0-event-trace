@@ -20,7 +20,7 @@ local set_handlers = function(handler_list)
     script.on_event(
       defines.events[k],
       function(e)
-        if global.players then
+        if storage.players then
           local ed = Util.deepcopytbl(e)
           local tick = ed.tick
           local logging = true
@@ -28,7 +28,7 @@ local set_handlers = function(handler_list)
           ed.name = nil
           if k == k:match('^on_gui_.+') and Util.have_parent_0_event_trace(ed.element) then logging = false end
           if logging then
-            for player_index, g in pairs(global.players) do
+            for player_index, g in pairs(storage.players) do
               if g.logging and game.players[player_index] and game.players[player_index].connected and g.whitelist[k] and g.gui.outpane.valid then
                 local str, counter, pc, ret
                 -- implementation of gvv

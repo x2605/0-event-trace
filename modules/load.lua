@@ -36,8 +36,8 @@ Load.on_load = function()
 end
 
 Load.on_player_demoted = function(event)
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   g.gui.frame.destroy()
   g.logging = false
@@ -50,17 +50,17 @@ Load.on_player_demoted = function(event)
 end
 
 Load.on_player_removed = function(event)
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
-  global.players[event.player_index] = nil
+  storage.players[event.player_index] = nil
 end
 
 Load.on_player_created = function(event)
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
-  global.players[event.player_index] = nil
+  storage.players[event.player_index] = nil
 end
 
 return Load

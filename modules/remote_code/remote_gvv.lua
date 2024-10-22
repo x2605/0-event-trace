@@ -1,4 +1,4 @@
-return [[if not global['0-event-trace'] then global['0-event-trace'] = {} end
+return [[if not storage['0-event-trace'] then storage['0-event-trace'] = {} end
 
 _0_event_trace_digits_ = 5
 _0_event_trace_function_ = {}
@@ -21,7 +21,7 @@ local blacklist = { --Causing savefile corruption 세이브파일 고장냄
 _0_event_trace_function_.deepcopy = function(ori)
   local t = type(ori)
   local ret
-  if t == 'table' and type(ori.__self) == 'userdata' and ori.object_name then
+  if t == 'userdata' and ori.object_name then
     if blacklist[ori.object_name] then
       ret = ori.object_name
     else
@@ -44,7 +44,7 @@ _0_event_trace_function_.attach_past = function(e)
   local t
   for k, v in pairs(e) do
     t = '_T_'..k
-    if type(v) == 'table' and type(v.__self) == 'userdata' and v.object_name and _0_event_trace_function_.have('valid',v) then
+    if type(v) == 'userdata' and v.object_name and _0_event_trace_function_.have('valid',v) then
       if _0_event_trace_function_.have('name',v) then if not e[t] then e[t] = {} end
         e[t].name = _0_event_trace_function_.deepcopy(v.name)
       end
@@ -92,8 +92,8 @@ end
 
 remote.add_interface('__gvv__0-event-trace',{
   add = function(player_name, eventname, eventdata)
-    local h = global['0-event-trace']
-    if not h then global['0-event-trace'] = {} h = global['0-event-trace'] end
+    local h = storage['0-event-trace']
+    if not h then storage['0-event-trace'] = {} h = storage['0-event-trace'] end
     if not h[player_name] then
       h[player_name] = {}
       local eventnames = {}
@@ -125,7 +125,7 @@ remote.add_interface('__gvv__0-event-trace',{
   end,
 
   clear = function(player_name)
-    local h = global['0-event-trace']
+    local h = storage['0-event-trace']
     if not h or not h[player_name] then return end
     for k, v in pairs(h[player_name]) do
       if type(v) == 'table' and not getmetatable(v) then
@@ -135,7 +135,7 @@ remote.add_interface('__gvv__0-event-trace',{
   end,
 
   del = function(player_name, eventname, istart, iend)
-    local h = global['0-event-trace']
+    local h = storage['0-event-trace']
     if not h or not h[player_name] or not h[player_name][eventname] then return 'no table created yet' end
     local e = h[player_name][eventname]
     if istart == nil and iend == nil then
@@ -213,7 +213,7 @@ remote.add_interface('__gvv__0-event-trace',{
   end,
 
   get = function(player_name, eventname, index)
-    local h = global['0-event-trace']
+    local h = storage['0-event-trace']
     if not h or not h[player_name] or not h[player_name][eventname] then return end
     if type(index) ~= 'number' then return end
     local e = h[player_name][eventname]
@@ -229,7 +229,7 @@ remote.add_interface('__gvv__0-event-trace',{
   end,
 
   get_last_index = function(player_name, eventname)
-    local h = global['0-event-trace']
+    local h = storage['0-event-trace']
     if not h or not h[player_name] or not h[player_name][eventname] then return end
     return h[player_name][eventname].last_index
   end,

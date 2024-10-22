@@ -24,7 +24,7 @@ end
 Util.deepcopytbl = function(ori)
   local t = type(ori)
   local ret
-  if t == 'table' and type(ori.__self) == 'userdata' and ori.object_name then
+  if t == 'userdata' and ori.object_name then
     ret = ori
   elseif t == 'table' then
     ret = {}
@@ -69,7 +69,7 @@ Util.create_frame_w_closebtn = function(player, frame_name, title)
   drag.style.height = 24
   drag.style.horizontally_stretchable = true
   drag.style.vertically_stretchable = true
-  local closebtn = frame.header.add{type = 'sprite-button', name = 'closebtn', sprite = 'utility/close_white', style = 'frame_action_button', mouse_button_filter = {'left'}}
+  local closebtn = frame.header.add{type = 'sprite-button', name = 'closebtn', sprite = 'utility/close', style = 'frame_action_button', mouse_button_filter = {'left'}}
   local innerframe = frame.add{type = 'flow', direction = 'vertical'}
   frame.auto_center = true
   return frame, closebtn, innerframe

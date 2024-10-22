@@ -6,8 +6,8 @@ local Util = require('modules.util')
 local Gui_Event = {}
 
 local export_window = function(player_index)
-  if not global.players then return end
-  local g = global.players[player_index]
+  if not storage.players then return end
+  local g = storage.players[player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   local player = game.players[player_index]
 
@@ -31,8 +31,8 @@ local export_window = function(player_index)
 end
 
 local import_window = function(player_index)
-  if not global.players then return end
-  local g = global.players[player_index]
+  if not storage.players then return end
+  local g = storage.players[player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   local player = game.players[player_index]
 
@@ -136,8 +136,8 @@ end
 Gui_Event.on_gui_click = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.closebtn then
     g.gui.frame.destroy()
@@ -190,8 +190,8 @@ end
 Gui_Event.on_gui_value_changed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.xresize then
     g.last_width = g.gui.xresize.slider_value
@@ -205,8 +205,8 @@ end
 Gui_Event.on_gui_switch_state_changed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.logswitch then
     if g.gui.logswitch.switch_state == 'right' then
@@ -224,8 +224,8 @@ end
 Gui_Event.on_gui_checked_state_changed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.white_selall then
     g.gui.white_deselall.state = false
@@ -275,8 +275,8 @@ end
 Gui_Event.on_gui_text_changed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   local noerror, r
   if event.element == g.gui.white_search then
@@ -312,8 +312,8 @@ end
 Gui_Event.on_gui_closed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.exframe then
     g.gui.exframe.destroy()
@@ -326,8 +326,8 @@ end
 Gui_Event.on_gui_confirmed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.gvvdel_range_input then
     gvv_range_del(g)
@@ -339,8 +339,8 @@ end
 Gui_Event.on_gui_selection_state_changed = function(event)
   if not event.element then return end
   if event.element.player_index ~= event.player_index then return end
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if event.element == g.gui.gvvdel_select then
     g.gvv_event_selected_index = event.element.selected_index

@@ -13,12 +13,12 @@ table.sort(eventnames, function(a,b) return a < b end)
 Gui.toggle_frame = function(event)
   local player = game.players[event.player_index]
   if not player.admin and game.is_multiplayer() then return end
-  if not global.players then global.players = {} end
-  if not global.players[event.player_index] then
-    global.players[event.player_index] = {}
+  if not storage.players then storage.players = {} end
+  if not storage.players[event.player_index] then
+    storage.players[event.player_index] = {}
   end
 
-  local g = global.players[event.player_index]
+  local g = storage.players[event.player_index]
   g.index = event.player_index
 
   local frame = player.gui.screen._0_event_trace_frame_
@@ -89,7 +89,7 @@ Gui.toggle_frame = function(event)
   drag.style.vertically_stretchable = true
   top.header.add{type = 'sprite-button', name = 'minimize', sprite = 'utility/collapse', style = 'frame_action_button', mouse_button_filter = {'left'}, tooltip = {"0-event-trace-minimize"}}
   g.gui.minimize = top.header.minimize -- 사용자 개체 등록
-  local closebtn = top.header.add{type = 'sprite-button', name = 'closebtn', sprite = 'utility/close_white', style = 'frame_action_button', mouse_button_filter = {'left'}, tooltip = {"0-event-trace-close-tooltip"}}
+  local closebtn = top.header.add{type = 'sprite-button', name = 'closebtn', sprite = 'utility/close', style = 'frame_action_button', mouse_button_filter = {'left'}, tooltip = {"0-event-trace-close-tooltip"}}
   g.gui.closebtn = closebtn -- 사용자 개체 등록
 
   local middle = frame.add{type = 'flow', direction = 'horizontal', style = 'hflow_0-event-trace'}
@@ -164,7 +164,7 @@ Gui.toggle_frame = function(event)
   local fixedset1 = cwrap2.w.add{type = 'flow', direction = 'horizontal'}
   fixedset1.style.left_padding = 6
   fixedset1.style.vertical_align = 'center'
-  fixedset1.add{type = 'sprite', sprite = 'utility/search_white'}
+  fixedset1.add{type = 'sprite', sprite = 'utility/search'}
   fixedset1.add{type = 'textfield', name = 'search', numeric = false, clear_and_focus_on_right_click = true, tooltip = {"0-event-trace-search-tooltip"}}
   g.gui.white_search = fixedset1.search -- 사용자 개체 등록
 
@@ -295,8 +295,8 @@ Gui.toggle_frame = function(event)
 end
 
 Gui.toggle_logging = function(event)
-  if not global.players then return end
-  local g = global.players[event.player_index]
+  if not storage.players then return end
+  local g = storage.players[event.player_index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   if g.gui.logswitch.switch_state == 'left' then
     g.gui.logswitch.switch_state = 'right'

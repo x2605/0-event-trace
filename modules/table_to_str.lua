@@ -67,7 +67,7 @@ end
 Table_to_str.to_richtext = function(obj, as_key)
   local s = {}
   local t = type(obj)
-  if t == 'table' and type(obj.__self) == 'userdata' and obj.object_name then
+  if t == 'userdata' and obj.object_name then
     if have('name',obj) and obj.name ~= '' then return '"[color=cyan]'..obj.name..'[/color]"'
     elseif have('id',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].id='..obj.id..'[/color]'
     elseif have('group_number',obj) then return '[color=purple]'..obj.object_name..'[/color][color=blue].group_number='..obj.group_number..'[/color]'
@@ -119,8 +119,8 @@ Table_to_str.export_whitelist = function(list)
 end
 
 Table_to_str.import_whitelist = function(player, str)
-  if not global.players then return end
-  local g = global.players[player.index]
+  if not storage.players then return end
+  local g = storage.players[player.index]
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   local list = {}
   local success = {}
