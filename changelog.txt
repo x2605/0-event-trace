@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.3.3
+Date: 2024-12-07
+
+  Fixes:
+    - Fixed crash when trying to load old savefile which 0-event-trace mod is activated.
+    - Fixed events from other mods are not updated in list when changing mod configuration. (from new feature of core 2.0.24)
+    - Fixed importing filter list function modifies strings in text which is making ignore custom events. (from new feature of core 2.0.24)
+
+---------------------------------------------------------------------------------------------------
 Version: 0.3.2
 Date: 2024-10-22
 

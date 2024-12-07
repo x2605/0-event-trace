@@ -124,8 +124,8 @@ Table_to_str.import_whitelist = function(player, str)
   if not g or not g.gui.frame or not g.gui.frame.valid then return end
   local list = {}
   local success = {}
-  for s in str:gmatch('[-%a_]+') do
-    list[s:gsub('[-]','_'):lower()] = true
+  for s in str:gmatch('[%g]+') do
+    list[s] = true
   end
   for k, _ in pairs(g.whitelist) do
     if k ~= 'on_tick' then

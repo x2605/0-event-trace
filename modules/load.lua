@@ -17,10 +17,53 @@ local loader = function()
 end
 
 Load.on_configuration_changed = function(data)
+  local mod_changed = false
   if data.mod_changes then
+    mod_changed = true
     local thismod = data.mod_changes['0-event-trace']
     if thismod then
       if thismod.old_version and thismod.new_version then
+      end
+    end
+  end
+  if data.old_version and data.new_version or mod_changed then
+    if storage.players then
+      local eventnames = {}
+      for k, _ in pairs(defines.events) do
+        table.insert(eventnames, k)
+      end
+      table.sort(eventnames, function(a,b) return a < b end)
+      for i1, g in pairs(storage.players) do
+        if g.gui.frame and g.gui.frame.valid then
+          g.gui.frame.destroy()
+        end
+        if g.gui.imframe and g.gui.imframe.valid then
+          g.gui.imframe.destroy()
+        end
+        if g.gui.exframe and g.gui.exframe.valid then
+          g.gui.exframe.destroy()
+        end
+        g.logging = false
+        if g.whitelist then
+          for i2, k in pairs(eventnames) do
+            g.whitelist[k] = g.whitelist[k] or false
+          end
+          for k in pairs(g.whitelist) do
+            if not defines.events[k] then
+              g.whitelist[k] = nil
+            end
+          end
+        end
+        if g.counter then
+          for i2, k in pairs(eventnames) do
+            g.counter[k] = g.counter[k] or false
+          end
+          for k in pairs(g.counter) do
+            if not defines.events[k] then
+              g.counter[k] = nil
+            end
+          end
+        end
       end
     end
   end
